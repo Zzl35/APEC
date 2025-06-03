@@ -1,0 +1,23 @@
+EXPERIMENT_COMMON_PARAMETERS:
+  SKIP_MAX_LEN_DONE: True
+EXPERIMENT_TARGET: "\u521D\u59CB\u5316\u8BAD\u7EC3"
+SHORT_NAME_SUFFIX: DEBUG-NEW
+IMPORTANT_CONFIGS:
+- env_name
+- alg_name
+- use_pref
+- seed
+- sac_epochs
+# - sac_batch_size
+- sac_alpha
+# - pref_beta
+- expert_traj_nums
+- disc_agent_sample_mode
+# - auto_alpha
+# - sac_lr
+# - expand_expert_warm_up
+# - expand_expert
+# - r_gradient_step
+# - expert_pref_size
+# - expand_pref_once
+# - teacher_eps_mistake

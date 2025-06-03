@@ -1,0 +1,39 @@
+obj: maxentirl_sa
+env_name: Hopper-v2
+information: maxent_irl
+alg_name: ppo_transfer
+seed: 333
+cuda: -1
+env:
+  env_name: NonStHopper-v0
+  T: 1000
+  state_indices: all
+  action_dependent: false
+  rand_param: ['gravity']
+sac:
+  epochs: 10000
+  log_step_interval: 5000
+  update_every: 50
+  update_num: 1
+  random_explore_episodes: 10
+  batch_size: 100
+  lr: 1e-3
+  alpha: 0.2
+  automatic_alpha_tuning: false
+  buffer_size: 1000000
+  num_test_episodes: 10
+expert:
+  samples_episode: 64
+
+reward: # from irl model
+  state_only: false
+  use_bn: false
+  residual: false
+  hid_act: relu
+  hidden_sizes: [64, 64]
+  clamp_magnitude: 10
+  # path: expert_data/reward_models/state_only_reward/hopper/reward_model_itr492_det3528_sto3446.pkl # state_only
+  # path: expert_data/reward_models/sa_reward/hopper/reward_model_itr489_det3548_sto3540.pkl # sa_reward
+  # path: expert_data/reward_models/gail_reward/hopper/reward_model_itr355_det3558_sto3567.pkl # gail_reward
+  gail_reward: false
+  # path: expert_data/reward_models/action_dependent_sa_reward/hopper/reward_model_itr266_det2300_sto-23.pkl # gail_reward

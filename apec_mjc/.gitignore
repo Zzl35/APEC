@@ -1,0 +1,27 @@
+# MacOS
+.DS_Store
+
+# Python
+__pycache__/
+build/
+.ipynb_checkpoints
+*.ipynb
+.vscode/
+.idea
+pic
+logfile*/
+run_all.json
+expert_data
+smart_logger_cache
+buffer*/
+
+# datafile
+*.pkl
+*.pth
+*.pt
+*.npz
+*.csv
+*.png
+*.pdf
+*.sh
+run_scripts/

@@ -1,0 +1,38 @@
+obj: maxentirl_sa
+env_name: Ant-v2
+information: maxent_irl
+alg_name: ppo_transfer
+seed: 333
+cuda: -1
+env:
+  env_name: NonStAnt-v0
+  T: 1000
+  state_indices: all
+  action_dependent: false
+  rand_param: ['gravity']
+sac:
+  epochs: 10000
+  log_step_interval: 5000
+  update_every: 50
+  random_explore_episodes: 10
+  batch_size: 100
+  lr: 1e-3
+  alpha: 0.2
+  automatic_alpha_tuning: false
+  buffer_size: 1000000
+  num_test_episodes: 10
+expert:
+  samples_episode: 64
+
+reward: # from irl model
+  state_only: false
+  use_bn: false
+  residual: false
+  hid_act: relu
+  hidden_sizes: [128, 128]
+  clamp_magnitude: 10
+  # path: expert_data/reward_models/state_only_reward/ant/reward_model_itr533_det5857_sto5227.pkl # state_only
+  # path: expert_data/reward_models/sa_reward/ant/reward_model_itr538_det6337_sto5904.pkl # sa_reward
+  # path: expert_data/reward_models/gail_reward/ant/reward_model_itr390_det6308_sto5853.pkl # gail_reward
+  gail_reward: false
+  # path: expert_data/reward_models/action_dependent_sa_reward/ant/reward_model_itr338_det2247_sto-282.pkl # gail_reward

@@ -1,0 +1,40 @@
+obj: maxentirl_sa
+env_name: HalfCheetah-v2
+information: maxent_irl
+alg_name: ppo_transfer
+seed: 333
+cuda: -1
+env:
+  env_name: NonStHalfCheetah-v0
+  T: 1000
+  state_indices: all
+  action_dependent: false
+  rand_param: ['gravity']
+sac:
+  epochs: 10000
+  log_step_interval: 5000
+  update_every: 50
+  update_num: 1
+  random_explore_episodes: 10
+  batch_size: 100
+  lr: 1e-3
+  alpha: 0.2
+  automatic_alpha_tuning: false
+  buffer_size: 1000000
+  num_test_episodes: 10
+expert:
+  samples_episode: 64
+
+reward: # from irl model
+  state_only: false
+  use_bn: false
+  residual: false
+  hid_act: relu
+  hidden_sizes: [64, 64]
+  clamp_magnitude: 10
+  # path: expert_data/reward_models/state_only_reward/halfcheetah/reward_model_itr459_det12296_sto11651.pkl # state_only
+  # path: expert_data/reward_models/sa_reward/halfcheetah/reward_model_itr576_det12533_sto11863.pkl # sa_reward
+  # path: expert_data/reward_models/gail_reward/halfcheetah/reward_model_itr413_det2362_sto1991.pkl # gail_reward
+  gail_reward: false
+  # path: expert_data/reward_models/action_dependent_sa_reward/halfcheetah/reward_model_itr396_det2481_sto-308.pkl # gail_reward
+  

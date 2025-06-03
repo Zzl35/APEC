@@ -1,0 +1,39 @@
+obj: maxentirl_sa
+env_name: Walker2d-v2
+information: maxent_irl
+alg_name: ppo_transfer
+seed: 333
+cuda: -1
+env:
+  env_name: NonStWalker2d-v0
+  T: 1000
+  state_indices: all
+  action_dependent: false
+  rand_param: ['gravity']
+sac:
+  epochs: 10000
+  log_step_interval: 5000
+  update_every: 50
+  update_num: 1
+  random_explore_episodes: 10
+  batch_size: 100
+  lr: 1e-3
+  alpha: 0.2
+  automatic_alpha_tuning: false
+  buffer_size: 1000000
+  num_test_episodes: 10
+expert:
+  samples_episode: 64
+
+reward: # from irl model
+  state_only: false
+  use_bn: false
+  residual: false
+  hid_act: relu
+  hidden_sizes: [64, 64]
+  clamp_magnitude: 10
+  # path: expert_data/reward_models/state_only_reward/walker2d/reward_model_itr749_det5597_sto5454.pkl # state_only
+  # path: expert_data/reward_models/sa_reward/walker2d/reward_model_itr761_det5744_sto5614.pkl # sa_reward
+  # path: expert_data/reward_models/gail_reward/walker2d/reward_model_itr330_det4712_sto4597.pkl # gail_reward
+  gail_reward: false
+  # path: expert_data/reward_models/action_dependent_sa_reward/walker2d/reward_model_itr18_det-114_sto-218.pkl # gail_reward
