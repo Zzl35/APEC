@@ -1,0 +1,45 @@
+defaults:
+  - _self_
+  - agent: dac
+  - suite: dmc
+  # - suite/dmc_task: walker_run
+  - override hydra/launcher: submitit_local
+
+# Root Dir
+root_dir: '/home/ubuntu/duxinghao/APEC/apec_dmc'
+
+# replay buffer
+replay_buffer_size: 150000
+replay_buffer_num_workers: 2
+nstep: 3
+batch_size: 256 # 128
+# misc
+seed: 2
+device: cuda
+save_video: true
+save_train_video: false
+use_tb: true
+
+# experiment
+obs_type: 'pixels' # pixels, features
+experiment: dac_${suite.name}_${num_demos}_${obs_type}_${task_name}_seed_${seed}
+
+buffer_type: 'suboptimal'
+# expert dataset
+num_demos: 10 #50(openaigym), 10(dmc), 1(metaworld), 1(particle), 1(robotgym)
+gen_num_demos: 10 # num of demos per ckpt
+expert_dataset: '${root_dir}/ROT/expert_demos/${suite.name}/${task_name}/expert_demo_${buffer_type}.pkl'
+
+# Load weights
+load_bc: false
+
+# Train with BC loss
+bc_regularize: false
+bc_weight_type: 'qfilter' # linear, qfilter
+
+# for airl load
+irl_weight: '${root_dir}/src/exp_local/train_irl/${suite.name}_${num_demos}/${task_name}/${seed}/${buffer_type}/snapshots'
+
+hydra:
+  run:
+    dir: './exp_local'

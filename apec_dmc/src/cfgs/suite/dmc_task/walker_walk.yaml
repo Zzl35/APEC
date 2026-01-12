@@ -1,0 +1,9 @@
+defaults:
+  - easy
+  - _self_
+
+task_name: walker_walk
+nstep: 1
+batch_size: 512
+distance_threshold: 0.0
+epoch_threshold: 15

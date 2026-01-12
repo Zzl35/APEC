@@ -1,0 +1,53 @@
+defaults:
+  - _self_
+  - agent: drqv2
+  - suite: dmc
+  - override hydra/launcher: submitit_local
+
+root_dir: '/home/ubuntu/duxinghao/APEC/apec_dmc'
+
+# replay buffer
+replay_buffer_size: 150000
+replay_buffer_num_workers: 4
+nstep: 3
+batch_size: 256
+
+# misc
+seed: 2
+device: cuda
+save_video: true
+save_train_video: false
+use_tb: true
+
+# pbrl train
+lr: 1e-4
+use_action: false
+
+# experiment
+obs_type: 'pixels'
+# experiment: generate_${suite.name}_${task_name}_seed_${seed}
+
+buffer_type: 'suboptimal'
+# expert dataset
+num_demos: 10 # 50(openaigym), 10(dmc), 1(metaworld), 1(particle), 1(robotgym)
+gen_num_demos: 10 # num of demos per ckpt
+expert_dataset: '${root_dir}/ROT/expert_demos/${suite.name}/${task_name}/expert_demo_${buffer_type}.pkl'
+
+# Load weights
+buffer_root: '/infinite/common'
+buffer_dir: '${buffer_root}/buffer/${suite.name}_${num_demos}/${task_name}/${seed}/${buffer_type}/'
+weight: '${root_dir}/src/exp_local/train_irl/${suite.name}_${num_demos}/${task_name}/${seed}/${buffer_type}/snapshots'
+
+baseline_type: 'drex'
+baseline_buffer_dir: '${buffer_root}/buffer/${suite.name}_${num_demos}/${task_name}/${seed}/${baseline_type}/${buffer_type}/'
+bc_agent_weight: '${root_dir}/src/exp_local/train_bc/${suite.name}_${num_demos}/${task_name}/${seed}/${buffer_type}/snapshots'
+
+bc_regularize: false
+bc_weight_type: 'qfilter'
+bc_weight: '${root_dir}/src/exp_local/sample_ckpts_${buffer_type}/snapshots/snapshot_1980000.pt'
+
+hydra:
+  run:
+    dir: './exp_local'
+
+

@@ -1,0 +1,64 @@
+defaults:
+  - _self_
+  - agent: drqv2
+  - suite: dmc
+  - override hydra/launcher: submitit_local
+
+root_dir: '/home/ubuntu/duxinghao/APEC/apec_dmc'
+
+# replay buffer
+replay_buffer_size: 150000
+replay_buffer_num_workers: 4
+nstep: 3
+batch_size: 256
+
+# misc
+seed: 2
+device: cuda
+save_video: true
+save_train_video: false
+use_tb: true
+
+# pbrl train
+lr: 1e-4
+use_action: false
+
+# experiment
+obs_type: 'pixels'
+# experiment: generate_${suite.name}_${num_demos}_${task_name}_seed_${seed}
+
+exp_id: APEC
+
+buffer_type: 'suboptimal'
+# expert dataset
+num_demos: 10 # 50(openaigym), 10(dmc), 1(metaworld), 1(particle), 1(robotgym)
+gen_num_demos: 10 # num of demos per ckpt
+expert_dataset: '${root_dir}/ROT/expert_demos/${suite.name}/${task_name}/expert_demo_${buffer_type}.pkl'
+
+# Load weights
+buffer_root: '/infinite/common'
+buffer_dir: '${buffer_root}/buffer/${suite.name}_${num_demos}/${task_name}/${seed}'
+train_buffer_path: '${buffer_dir}/${buffer_type}'
+train_idx_path: '${buffer_dir}/${buffer_type}_train_${exp_id}.pkl'
+test_buffer_path: '${buffer_root}/buffer/${suite.name}_10/${task_name}/optimal'
+test_idx_path: '${buffer_root}/buffer/${suite.name}_10/${task_name}/optimal_test.pkl'
+
+load_dir: '${buffer_dir}/irl'
+# reward_path: '${buffer_dir}/reward.pkl'
+reward_path: '${root_dir}/src/exp_local/train_pbrl/${suite.name}_${num_demos}/${task_name}_${exp_id}/${seed}/best_model/reward_model_last.pkl'
+
+baseline_type: 'drex'
+baseline_reward_path: '${root_dir}/src/exp_local/train_${baseline_type}/${suite.name}_${num_demos}/${task_name}_${exp_id}/${seed}/best_model/reward_model_last.pkl'
+baseline_train_buffer_path: '${buffer_dir}/${baseline_type}/${buffer_type}'
+baseline_train_idx_path: '${buffer_dir}/${baseline_type}/${buffer_type}_train.pkl'
+
+bc_regularize: false
+bc_weight_type: 'qfilter'
+bc_weight: ${root_dir}/src/exp_local/train_irl/dmc/${task_name}/${seed}/${buffer_type}/snapshots/snapshot_980000.pt
+
+
+hydra:
+  run:
+    dir: './exp_local'
+
+

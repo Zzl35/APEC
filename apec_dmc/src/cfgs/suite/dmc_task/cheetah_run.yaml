@@ -1,0 +1,7 @@
+defaults:
+  - medium
+  - _self_
+
+task_name: cheetah_run
+distance_threshold: 0.01
+epoch_threshold: 10
